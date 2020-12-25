@@ -7,21 +7,24 @@ const User = mongoose.model('User');
 
 const router = express.Router();
 
+//Must make sure no users sign up with the same email account
 router.post('/signup',async (req,res)=>{
   const {email, password} = req.body;
-  try { // create a new user entry
+  try { // to create a new user entry
     const user = new User({email, password});
-    await user.save();// send to mongoDB
-    //responde with session token
+    await user.save();// async operation, sent to mongoDB
+    //respond with salted session token
     const token = jwt.sign({userId: user._id},'SALTKEY');
     res.send({token});
-  } catch (err) { // if user already exists
-    // or if there's no email || password
+  } catch (err) { // if user is duplicate or if no email || password
     return res.status(422).send(err.message);
+    //error message produced by mongoose automatically
   };
 
 });
 
+// Handle login. Use user method to compare plain-text password to hashed
+  //pwd stored in db.
 router.post('/signin',async(req,res)=>{
   //check the login request is valid
   const {email,password} = req.body;
@@ -30,16 +33,16 @@ router.post('/signin',async(req,res)=>{
   };
   //check the account exists
   const user = await User.findOne({email})
-  if(!user)return res.status(404).send({error:'Email not found.'});
+  if(!user) return res.status(404).send({error:'Email not found.'});
   //check the password is correct
   try {
     await user.comparePassword(password);
-    //respond with session token
+    //if password matched, respond with a session token
     const token= jwt.sign({userId:user._id},'SALTKEY');
     return res.send({token});
   } 
   catch(err){//if password didn't match
-    return res.status(422).send(  {error:'Invalid password.'});
+    return res.status(422).send({error:'Invalid password or email.'});
   };
   
 });
