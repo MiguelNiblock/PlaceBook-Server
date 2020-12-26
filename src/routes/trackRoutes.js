@@ -17,4 +17,18 @@ router.get('/tracks', async(req, res)=>{
     res.send(tracks);
 });
 
+//Save a new track for a given user
+router.post('/tracks', async(req,res)=>{
+    const {name, locations} = req.body
+    if (!name || !locations) {
+        return res.status(422)
+        .send({error:'You must provide a name and locations'});
+    }
+    try { //userId obtained from req.user, thanks to requireAuth middleware
+        const track = new Track({name, locations, userId: req.user._id});
+        await track.save();
+        res.send(track); //return the track created
+    } catch (err) {return res.status(422).send({error:err.message})}
+});
+
 module.exports = router;
