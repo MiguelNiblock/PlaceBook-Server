@@ -4,7 +4,8 @@
   "description": "backend for location-tracking app",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "start": "nodemon src/index.js"
   },
   "author": "Miguel Niblock",
   "license": "ISC",
