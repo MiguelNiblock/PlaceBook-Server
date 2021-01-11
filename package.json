@@ -4,12 +4,13 @@
   "description": "backend for location-tracking app",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js" 
+    "dev": "nodemon src/index.js"
   },
   "author": "Miguel Niblock",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.7",

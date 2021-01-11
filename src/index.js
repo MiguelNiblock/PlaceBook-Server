@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const trackRoutes = require('./routes/trackRoutes');
 const requireAuth = require('./middlewares/requireAuth');
+require('dotenv').config()
 
 const app = express();
 app.use(bodyParser.json()); //allows the ability to read request's body
@@ -16,7 +17,7 @@ app.use(bodyParser.json()); //allows the ability to read request's body
 app.use(authRoutes); //associates route handler with app
 app.use(trackRoutes); //requests are handled by trackRoutes
 // URI provided by mongodb instance from atlas
-const mongoUri = 'mongodb+srv://admin:password1.1.@cluster0.ujve1.mongodb.net/test?retryWrites=true&w=majority'
+const mongoUri = process.env.mongoUri
 
 mongoose.connect(mongoUri,{
   useNewUrlParser: true,

@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+require('dotenv').config()
 
 // user model allows us to interact with the user collection in mongo
 const User = mongoose.model('User');
@@ -14,7 +15,7 @@ router.post('/signup',async (req,res)=>{
     const user = new User({email, password});
     await user.save();// async operation, sent to mongoDB
     //respond with salted session token
-    const token = jwt.sign({userId: user._id},'SALTKEY');
+    const token = jwt.sign({userId: user._id},process.env.SALTKEY);
     res.send({token});
   } catch (err) { // if user is duplicate or if no email || password
     return res.status(422).send(err.message);
@@ -38,7 +39,7 @@ router.post('/signin',async(req,res)=>{
   try {
     await user.comparePassword(password);
     //if password matched, respond with a session token
-    const token= jwt.sign({userId:user._id},'SALTKEY');
+    const token= jwt.sign({userId:user._id},process.env.SALTKEY);
     return res.send({token});
   } 
   catch(err){//if password didn't match
