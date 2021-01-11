@@ -6,10 +6,9 @@ const Track = mongoose.model('Track');
 
 const router = express.Router();
 
-// Ensure all request handlers attached to this router require
-    // the user to be signed in.
+// Ensure all request handlers attached to this router require the user to be signed in.
+    // It attaches user obj to req
 router.use(requireAuth);
-    // Attaches user obj to req
 
 //Fetch all tracks a user has ever created
 router.get('/tracks', async(req, res)=>{
