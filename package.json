@@ -1,7 +1,7 @@
 {
-  "name": "track-server",
+  "name": "PlaceBook-Server",
   "version": "1.0.0",
-  "description": "backend for location-tracking app",
+  "description": "backend for app allowing users to save map locations",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
@@ -17,5 +17,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.7",
     "nodemon": "^2.0.4"
+  },
+  "engines": {
+    "node": "15.3.x"
   }
 }
