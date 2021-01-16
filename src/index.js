@@ -1,13 +1,15 @@
-// mongoose model must be defined only once, so not necessary to name it
-// to use the model elsewhere, import mongoose, not the User model itself
-// if you imported a model again elsewhere, you'd be creating another collection
+// Mongoose model must be defined only once, so not necessary to name it.
+// To use the model elsewhere, import mongoose, not the User model itself.
+// If you imported a model again elsewhere, you'd be creating another collection
 require('./models/User');
-require('./models/Track');
+require('./models/List');
+require('./models/Location');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
-const trackRoutes = require('./routes/trackRoutes');
+const listRoutes = require('./routes/listRoutes');
+const locationRoutes = require('./routes/locationRoutes');
 const requireAuth = require('./middlewares/requireAuth');
 require('dotenv').config()
 
@@ -15,7 +17,9 @@ const app = express();
 app.use(bodyParser.json()); //allows the ability to read request's body
 // becomes available in the req.body of a request
 app.use(authRoutes); //associates route handler with app
-app.use(trackRoutes); //requests are handled by trackRoutes
+app.use(listRoutes);
+app.use(locationRoutes);
+// app.use(trackRoutes); //requests are handled by trackRoutes
 // URI provided by mongodb instance from atlas
 const mongoUri = process.env.mongoUri
 

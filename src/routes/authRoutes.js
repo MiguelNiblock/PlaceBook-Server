@@ -9,13 +9,13 @@ const User = mongoose.model('User');
 const router = express.Router();
 
 //Must make sure no users sign up with the same email account
-router.post('/signup',async (req,res)=>{
+router.post('/signup', async(req,res)=>{
   const {email, password} = req.body;
   try { // to create a new user entry
     const user = new User({email, password});
     await user.save();// async operation, sent to mongoDB
     //respond with salted session token
-    const token = jwt.sign({userId: user._id},process.env.SALTKEY);
+    const token = jwt.sign({userId: user._id}, process.env.SALTKEY);
     res.send({token});
   } catch (err) { // if user is duplicate or if no email || password
     return res.status(422).send(err.message);
@@ -26,7 +26,7 @@ router.post('/signup',async (req,res)=>{
 
 // Handle login. Use user method to compare plain-text password to hashed
   //pwd stored in db.
-router.post('/signin',async(req,res)=>{
+router.post('/signin', async(req,res)=>{
   //check the login request is valid
   const {email,password} = req.body;
   if(!email || !password){
@@ -39,7 +39,7 @@ router.post('/signin',async(req,res)=>{
   try {
     await user.comparePassword(password);
     //if password matched, respond with a session token
-    const token= jwt.sign({userId:user._id},process.env.SALTKEY);
+    const token= jwt.sign({userId:user._id}, process.env.SALTKEY);
     return res.send({token});
   } 
   catch(err){//if password didn't match

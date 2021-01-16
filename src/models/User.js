@@ -14,18 +14,18 @@ const userSchema = new mongoose.Schema({
 });
 
 //Fn that salts and hashes a pwd before saving an instance
-  //of a user into our db. Will generate a salt, hash the salt and plain-text password together,
-  //and store actual hash in db. Known as pre-save hook, for db.
+  //of a user into our db. Will generate a salt & hash the salt and plain-text password together,
+  //and store actual hash in db. Known as pre-save hook, for a db schema.
   //Callback must use 'function(){}' syntax for 'this' to represent the user. 
   //Otherwise 'this' will represent 'this' in the context of the file.(Not what we want)
 userSchema.pre('save',function(next){
-  const user = this;
+  const user = this;//the new instance of user, being saved
   //if user hasn't modified their pwd, don't salt anything
   if(!user.isModified('password')) next(); 
   //else, generate salt, and hash pwd+salt
   bcrypt.genSalt(10, (err,salt)=>{ //int for how complex the salt
     if (err) return next(err);
-    bcrypt.hash(user.password,salt,(err,hash)=>{
+    bcrypt.hash(user.password, salt, (err,hash)=>{
       if(err) return next(err);
       user.password = hash; // update user's password with salted & hashed password
       next(); // continue saving user
@@ -40,9 +40,9 @@ userSchema.pre('save',function(next){
   //Must use 'function(){}' syntax, again, for 'this' to represent the user.
   //Fn will be called with some pwd a user is trying to log in with.
 userSchema.methods.comparePassword = function(candidatePwd){
-  const user = this;
+  const user = this;//user trying to sign in
   return new Promise((resolve,reject)=>{
-    bcrypt.compare(candidatePwd,user.password,(err,isMatch)=>{
+    bcrypt.compare(candidatePwd, user.password, (err,isMatch)=>{
       if(err) return reject(err);
       if(!isMatch) return reject(false);
       resolve(true);
@@ -50,6 +50,6 @@ userSchema.methods.comparePassword = function(candidatePwd){
   })
 };
 
-mongoose.model('User',userSchema);
+mongoose.model('User', userSchema);
 // we're not exporting any functions. We're simply registering the 'User' model in mongoose, which creates the 'users' collection in mongo, which will follow the 'userSchema'
-//the collection will be named in lowercase, and in plural so User => users
+//the collection will be named in lowercase, and in plural: 'User' => 'users'
