@@ -31,9 +31,10 @@ router.get('/locs', async(req, res)=>{
   res.send(locs);
 });
 
-router.put('/locs', async(req, res)=>{
+router.put('/locs/:id', async(req, res)=>{
   try {
-    const {_id, name, address, coords, notes, stars, tags, listId} = req.body
+    const _id = req.params.id;
+    const {name, address, coords, notes, stars, tags, listId} = req.body
     // const savedLoc = await Location.findById(_id)
     // const datetimeCreated = savedLoc.datetimeCreated
     const datetimeModified = 1000;
