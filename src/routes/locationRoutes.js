@@ -31,4 +31,19 @@ router.get('/locs', async(req, res)=>{
   res.send(locs);
 });
 
+router.put('/locs', async(req, res)=>{
+  try {
+    const {_id, name, address, coords, notes, stars, tags, listId} = req.body
+    // const savedLoc = await Location.findById(_id)
+    // const datetimeCreated = savedLoc.datetimeCreated
+    const datetimeModified = 1000;
+    const newLoc = await Location.findByIdAndUpdate(
+      _id,
+      {name, address, coords, notes, stars, tags, listId, datetimeModified},
+      {new:true}
+    )
+    res.send(newLoc);
+  } catch (err) {return res.status(422).send({error:err.message})}
+})
+
 module.exports = router;

@@ -20,7 +20,7 @@ router.post('/lists', async(req,res)=>{
     const datetimeCreated = 10000;
     const datetimeModified = 10000;
     const list = new List({name, color, icon, userId: req.user._id, datetimeCreated, datetimeModified});
-    console.log('list:',list)
+    // console.log('list:',list)
     await list.save();
     res.send(list); //return the instance created
   } catch (err) {return res.status(422).send({error:err.message})}

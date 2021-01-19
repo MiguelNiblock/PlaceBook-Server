@@ -18,10 +18,10 @@ const userSchema = new mongoose.Schema({
   //and store actual hash in db. Known as pre-save hook, for a db schema.
   //Callback must use 'function(){}' syntax for 'this' to represent the user. 
   //Otherwise 'this' will represent 'this' in the context of the file.(Not what we want)
-userSchema.pre('save',function(next){
+userSchema.pre('save', function(next){
   const user = this;//the new instance of user, being saved
   //if user hasn't modified their pwd, don't salt anything
-  if(!user.isModified('password')) next(); 
+  if(!user.isModified('password')) next();
   //else, generate salt, and hash pwd+salt
   bcrypt.genSalt(10, (err,salt)=>{ //int for how complex the salt
     if (err) return next(err);
