@@ -32,4 +32,18 @@ router.get('/lists', async(req, res)=>{
   res.send(lists);
 });
 
+router.put('/lists/:id', async(req, res)=>{
+  try {
+    const _id = req.params.id;
+    const {name, color, icon} = req.body
+    const datetimeModified = 1000;
+    const newList = await List.findByIdAndUpdate(
+      _id,
+      {name, color, icon, datetimeModified},
+      {new:true}
+    )
+    res.send(newList);
+  } catch (err) {return res.status(422).send({error:err.message})}
+})
+
 module.exports = router;
