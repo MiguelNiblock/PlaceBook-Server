@@ -7,7 +7,7 @@ const listSchema = new mongoose.Schema({
   },
   color: String,
   icon: String,
-  show: Boolean,
+  shown: Boolean,
   datetimeCreated: Number,
   datetimeModified: Number,
   userId: {

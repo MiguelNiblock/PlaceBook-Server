@@ -34,11 +34,11 @@ router.get('/lists', async(req, res)=>{
 router.put('/lists/:id', async(req, res)=>{
   try {
     const _id = req.params.id;
-    const {name, color, icon, show} = req.body
+    const {name, color, icon, shown} = req.body
     const datetimeModified = 1000;
     const newList = await List.findByIdAndUpdate(
       _id,
-      {name, color, icon, show, datetimeModified},
+      {name, color, icon, shown, datetimeModified},
       {new:true}
     )
     res.send(newList);
