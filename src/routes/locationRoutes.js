@@ -41,9 +41,17 @@ router.put('/locs/:id', async(req, res)=>{
       _id,
       {name, address, coords, notes, stars, tags, listId, datetimeModified},
       {new:true}
-    )
+    );
     res.send(newLoc);
-  } catch (err) {return res.status(422).send({error:err.message})}
+  } catch (err) {return res.status(422).send({error:err.message})};
+})
+
+router.delete('/locs/:id', async(req,res)=>{
+  try {
+    const _id = req.params.id;
+    const deletedLoc = await Location.findByIdAndDelete(_id);
+    res.send(deletedLoc);
+  } catch (err) {return res.status(422).send({error:err.message})};
 })
 
 module.exports = router;
