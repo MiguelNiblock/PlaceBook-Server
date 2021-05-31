@@ -11,8 +11,8 @@ const locationSchema = new mongoose.Schema({
     heading: Number,
     speed: Number
   },
-  datetimeCreated: Number,
-  datetimeModified: Number,
+  datetimeCreated: String,
+  datetimeModified: String,
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

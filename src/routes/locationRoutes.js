@@ -17,9 +17,8 @@ router.post('/locs', async(req,res)=>{
     return res.status(422).send({error:'You must choose a list in which to save this location'});
   }
   try { //userId obtained from req.user, thanks to requireAuth middleware
-    const datetimeCreated = 10000;
-    const datetimeModified = 1000;
-    const location = new Location({name, address, coords, notes, stars, tags, userId: req.user._id, listId, datetimeCreated, datetimeModified});
+    const timeStamp = new Date().toISOString();
+    const location = new Location({name, address, coords, notes, stars, tags, userId: req.user._id, listId, datetimeCreated:timeStamp, datetimeModified:timeStamp});
     await location.save();
     res.send(location); //return the instance created
   } catch (err) {return res.status(422).send({error:err.message})}
@@ -37,7 +36,7 @@ router.put('/locs/:id', async(req, res)=>{
     const {name, address, coords, notes, stars, tags, listId} = req.body
     // const savedLoc = await Location.findById(_id)
     // const datetimeCreated = savedLoc.datetimeCreated
-    const datetimeModified = 1000;
+    const datetimeModified = new Date().toISOString();
     const newLoc = await Location.findByIdAndUpdate(
       _id,
       {name, address, coords, notes, stars, tags, listId, datetimeModified},

@@ -17,8 +17,8 @@ router.post('/lists', async(req,res)=>{
     return res.status(422).send({error:'You must provide a list name'});
   }
   try { //userId obtained from req.user, thanks to requireAuth middleware
-    const now = 10000;
-    const list = new List({name, color, icon, show, datetimeCreated:now, datetimeModified:now, userId: req.user._id});
+    const timeStamp = new Date().toISOString();
+    const list = new List({name, color, icon, show, datetimeCreated:timeStamp, datetimeModified:timeStamp, userId: req.user._id});
     // console.log('list:',list)
     await list.save();
     res.send(list); //return the instance created
@@ -35,7 +35,7 @@ router.put('/lists/:id', async(req, res)=>{
   try {
     const _id = req.params.id;
     const {name, color, icon, shown} = req.body
-    const datetimeModified = 1000;
+    const datetimeModified = new Date().toISOString();
     const newList = await List.findByIdAndUpdate(
       _id,
       {name, color, icon, shown, datetimeModified},
