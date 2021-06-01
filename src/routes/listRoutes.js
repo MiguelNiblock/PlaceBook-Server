@@ -45,4 +45,12 @@ router.put('/lists/:id', async(req, res)=>{
   } catch (err) {return res.status(422).send({error:err.message})}
 })
 
+router.delete('/lists/:id', async(req,res)=>{
+  try {
+    const _id = req.params.id;
+    const deletedList = await List.findByIdAndDelete(_id);
+    res.send(deletedList);
+  } catch (err) {return res.status(422).send({error:err.message})};
+})
+
 module.exports = router;
