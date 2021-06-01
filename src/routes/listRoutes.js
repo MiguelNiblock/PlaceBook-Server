@@ -12,13 +12,13 @@ router.use(requireAuth);
 
 //Save a new instance of model for a given user
 router.post('/lists', async(req,res)=>{
-  const {name, color, icon, show} = req.body
+  const {name, color, icon, shown} = req.body
   if (!name) {
     return res.status(422).send({error:'You must provide a list name'});
   }
   try { //userId obtained from req.user, thanks to requireAuth middleware
     const timeStamp = new Date().toISOString();
-    const list = new List({name, color, icon, show, datetimeCreated:timeStamp, datetimeModified:timeStamp, userId: req.user._id});
+    const list = new List({name, color, icon, shown, datetimeCreated:timeStamp, datetimeModified:timeStamp, userId: req.user._id});
     // console.log('list:',list)
     await list.save();
     res.send(list); //return the instance created
