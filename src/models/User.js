@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  datetimeCreated: String
 });
 
 //Fn that salts and hashes a pwd before saving an instance

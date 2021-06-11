@@ -11,8 +11,9 @@ const router = express.Router();
 //Must make sure no users sign up with the same email account
 router.post('/signup', async(req,res)=>{
   const {email, password} = req.body;
+  const timeStamp = new Date().toISOString();
   try { // to create a new user entry
-    const user = new User({email, password});
+    const user = new User({email, password, datetimeCreated:timeStamp});
     await user.save();// async operation, sent to mongoDB
     //respond with salted session token
     const token = jwt.sign({userId: user._id}, process.env.SALTKEY);
