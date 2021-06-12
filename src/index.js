@@ -11,6 +11,7 @@ const authRoutes = require('./routes/authRoutes');
 const listRoutes = require('./routes/listRoutes');
 const locationRoutes = require('./routes/locationRoutes');
 const requireAuth = require('./middlewares/requireAuth');
+const userRoutes = require('./routes/userRoutes');
 require('dotenv').config()
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(bodyParser.json()); //allows the ability to read request's body
 app.use(authRoutes); //associates route handler with app
 app.use(listRoutes);
 app.use(locationRoutes);
+app.use(userRoutes);
 // app.use(trackRoutes); //requests are handled by trackRoutes
 // URI provided by mongodb instance from atlas
 const mongoUri = process.env.mongoUri
