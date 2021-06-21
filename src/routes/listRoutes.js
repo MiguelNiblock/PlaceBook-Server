@@ -12,13 +12,13 @@ router.use(requireAuth);
 
 //Save a new instance of model for a given user
 router.post('/lists', async(req,res)=>{
-  const {name, color, icon, shown} = req.body
+  const {name, color, icon} = req.body
   if (!name) {
     return res.status(422).send({error:'You must provide a list name'});
   }
   try { //userId obtained from req.user, thanks to requireAuth middleware
     const timeStamp = new Date().toISOString();
-    const list = new List({name, color, icon, shown, datetimeCreated:timeStamp, datetimeModified:timeStamp, userId: req.user._id});
+    const list = new List({name, color, icon, shown:true, expanded:true, datetimeCreated:timeStamp, datetimeModified:timeStamp, userId: req.user._id});
     // console.log('list:',list)
     await list.save();
     res.send(list); //return the instance created
@@ -34,14 +34,15 @@ router.get('/lists', async(req, res)=>{
 router.put('/lists/:id', async(req, res)=>{
   try {
     const _id = req.params.id;
-    const {name, color, icon, shown} = req.body
+    const {name, color, icon, shown, expanded} = req.body
+    console.log('PUT:',_id,name,color,icon,shown,expanded)
     const datetimeModified = new Date().toISOString();
-    const newList = await List.findByIdAndUpdate(
+    const updatedList = await List.findByIdAndUpdate(
       _id,
-      {name, color, icon, shown, datetimeModified},
+      {name, color, icon, shown, expanded, datetimeModified},
       {new:true}
     )
-    res.send(newList);
+    res.send(updatedList);
   } catch (err) {return res.status(422).send({error:err.message})}
 })
 

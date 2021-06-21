@@ -8,6 +8,7 @@ const listSchema = new mongoose.Schema({
   color: String,
   icon: String,
   shown: Boolean,
+  expanded: Boolean,
   datetimeCreated: String,
   datetimeModified: String,
   userId: {
