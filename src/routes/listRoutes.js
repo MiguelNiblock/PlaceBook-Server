@@ -34,9 +34,8 @@ router.get('/lists', async(req, res)=>{
 router.put('/lists/:id', async(req, res)=>{
   try {
     const _id = req.params.id;
-    const {name, color, icon, shown, expanded} = req.body
-    console.log('PUT:',_id,name,color,icon,shown,expanded)
-    const datetimeModified = new Date().toISOString();
+    const {name, color, icon, shown, expanded,datetimeModified} = req.body
+    console.log('PUT:',_id,name,color,icon,shown,expanded,datetimeModified)
     const updatedList = await List.findByIdAndUpdate(
       _id,
       {name, color, icon, shown, expanded, datetimeModified},
