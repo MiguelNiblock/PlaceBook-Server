@@ -2,14 +2,21 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
-  email:{
+  username:{
     type: String,//error if property is not string
-    unique: true,//mongoose will send error message if email isn't unique
-    required: true //error if property isn't provided
+    unique: true,//mongoose will send error message if username isn't unique
+    required: true, //error if property isn't provided
+    index: true,
+    lowercase: true,
+    trim:true,
+    maxlength:30,
+    minlength:3,
   },
   password:{
     type: String,
-    required: true
+    required: true,
+    minlength: 6,
+    maxlength: 30,
   },
   datetimeCreated: String
 });

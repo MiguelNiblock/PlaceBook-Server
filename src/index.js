@@ -36,7 +36,7 @@ mongoose.connection.on('error',(err)=>console.error('Error connecting to mongo',
 
 // Default route, protected by authentication middleware
 app.get('/', requireAuth, (req,res)=>{
-  res.send(`Your email: ${req.user.email}`);
+  res.send(`Your username: ${req.user.username}`);
 });
 
 let port = process.env.PORT;
