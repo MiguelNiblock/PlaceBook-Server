@@ -17,6 +17,7 @@ module.exports = (req, res, next)=>{
   if (!authorization) return res.status(401).send({error:'You must be logged in.'});
   //validate token
   const token = authorization.replace('Bearer ','');//parse token
+  // console.log('token received:',token);
   jwt.verify(token, process.env.SALTKEY, async(err,payload)=>{
     if(err){
       return res.status(401).send({error:'You must be logged in.'});

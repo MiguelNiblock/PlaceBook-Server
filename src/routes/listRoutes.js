@@ -27,6 +27,7 @@ router.post('/lists', async(req,res)=>{
 
 //Fetch all instances a user has ever created
 router.get('/lists', async(req, res)=>{
+  // console.log('get /lists');
   const lists = await List.find({userId: req.user._id})
   res.send(lists);
 });
