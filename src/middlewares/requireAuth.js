@@ -9,13 +9,15 @@ require('dotenv').config()
 
 //Authenticate user through request token
 module.exports = (req, res, next)=>{
+  // return res.status(401).send({error:'You must be logged in.'});
+
     //token will come in request header named 'authorization'
     //express automatically turns request headers to lower-case: (Authorization -> authorization)
     //authorization == `Bearer asdlfkajsdfalksdjfas`
   const {authorization} = req.headers;
-  //check authorization was provided
+    // check authorization was provided
   if (!authorization) return res.status(401).send({error:'You must be logged in.'});
-  //validate token
+    //validate token
   const token = authorization.replace('Bearer ','');//parse token
   // console.log('token received:',token);
   jwt.verify(token, process.env.SALTKEY, async(err,payload)=>{

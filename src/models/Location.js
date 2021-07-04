@@ -15,7 +15,8 @@ const locationSchema = new mongoose.Schema({
   datetimeModified: String,
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    required: true
   },
   listId: {
     type: mongoose.Schema.Types.ObjectId,
