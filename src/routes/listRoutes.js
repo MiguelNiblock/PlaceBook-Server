@@ -12,17 +12,16 @@ router.use(requireAuth);
 
 //Save a new instance of model for a given user
 router.post('/lists', async(req,res)=>{
-  const {name, color, icon} = req.body
-  if (!name) {
+  let {item} = req.body
+  if (!item.name) {
     return res.status(422).send({error:'You must provide a list name'});
   }
   try { //userId obtained from req.user, thanks to requireAuth middleware
-    const timeStamp = new Date().toISOString();
-    const list = new List({name, color, icon, shown:true, expanded:true, datetimeCreated:timeStamp, datetimeModified:timeStamp, userId: req.user._id});
-    // console.log('list:',list)
+    const list = new List({...item, userId: req.user._id});
+    console.log('creating list:',list)
     await list.save();
     res.send(list); //return the instance created
-  } catch (err) {return res.status(422).send({error:err.message})}
+  } catch (err) {return res.status(422).send({err})}
 });
 
 //Fetch all instances a user has ever created
@@ -32,6 +31,7 @@ router.get('/lists', async(req, res)=>{
   res.send(lists);
 });
 
+//Edit a record
 router.put('/lists/:id', async(req, res)=>{
   try {
     const _id = req.params.id;
@@ -49,7 +49,9 @@ router.put('/lists/:id', async(req, res)=>{
 router.delete('/lists/:id', async(req,res)=>{
   try {
     const _id = req.params.id;
+    console.log('deleting id:',_id);
     const deletedList = await List.findByIdAndDelete(_id);
+    console.log('deleted:',deletedList);
     res.send(deletedList);
   } catch (err) {return res.status(422).send({error:err.message})};
 })

@@ -30,7 +30,6 @@ router.post('/signup', async(req,res)=>{
     res.send({token});
   } catch (err) { // if user is duplicate or if no username || password
     return res.status(422).send(err.message);
-    //error message from mongoose 
   };
 
 });

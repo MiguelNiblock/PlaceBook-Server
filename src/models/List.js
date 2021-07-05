@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const listSchema = new mongoose.Schema({
   _id: {
     type: String,
-    unique: true,
-    index: true,
+    // unique: true,
+    // index: true,
   },
   name: {
     type: String,
