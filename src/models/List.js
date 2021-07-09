@@ -1,11 +1,7 @@
 const mongoose = require('mongoose');
 
 const listSchema = new mongoose.Schema({
-  _id: {
-    type: String,
-    // unique: true,
-    // index: true,
-  },
+  _id: String,
   name: {
     type: String,
     required: true,

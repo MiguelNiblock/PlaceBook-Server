@@ -1,7 +1,13 @@
 const mongoose = require('mongoose');
 
 const locationSchema = new mongoose.Schema({
-  name: String,
+  _id: String,
+  name: {
+    type: String,
+    required: true,
+    maxlength: 30,
+    trim: true
+  },
   address: String,
   coords: {
     latitude: Number,
