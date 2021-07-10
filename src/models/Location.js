@@ -8,26 +8,23 @@ const locationSchema = new mongoose.Schema({
     maxlength: 30,
     trim: true
   },
-  address: String,
+  address: {
+    type: String,
+    default: ''
+  },
   coords: {
     latitude: Number,
-    longitude: Number,
-    altitude: Number,
-    accuracy: Number,
-    heading: Number,
-    speed: Number
+    longitude: Number
   },
   datetimeCreated: String,
   datetimeModified: String,
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    ref: 'User'
   },
   listId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'List',
-    required: true
+    type: String,
+    ref: 'List'
   },
   notes: {
     type: String,
