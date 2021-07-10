@@ -13,14 +13,16 @@ router.use(requireAuth);
 //Save a new instance of model for a given user
 router.post('/locs', async(req,res)=>{
   const {item} = req.body
+  // console.log('POST item received:',item);
   if (!item.listId) {
     return res.status(422).send({error:'You must choose a list in which to save this location'});
   }
   try { //userId obtained from req.user, thanks to requireAuth middleware
     const location = new Location({...item, userId: req.user._id});
-    await location.save();
+    // console.log('creating location:',location);
+    await location.save((error)=>console.error(error));
     res.send(location); //return the instance created
-  } catch (err) {return res.status(422).send({error:err.message})}
+  } catch (err) {return res.status(422).send(err)}
 });
 
 //Fetch all instances a user has ever created

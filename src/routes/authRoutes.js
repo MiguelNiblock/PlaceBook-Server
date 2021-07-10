@@ -6,6 +6,7 @@ require('dotenv').config()
   // user model allows us to interact with the user collection in mongo
 const User = mongoose.model('User');
 const List = mongoose.model('List');
+const Location = mongoose.model('Location');
 
 const router = express.Router();
 
@@ -18,13 +19,23 @@ router.post('/signup', async(req,res)=>{
     const user = new User({username, password, datetimeCreated:timeStamp});
     await user.save();// async operation, sent to mongoDB
     // console.log('user:',user);
+
       //Create many, from queue
     const listsCreateQueue = queues.lists.create.map((item)=>{
       return {...item,userId:user._id}//add the userId to the new items
     })
     // console.log('listsCreateQueue:',listsCreateQueue);
-    const docs = await List.insertMany(listsCreateQueue,{lean:true,ordered:false,rawResult:true})
-    // console.log('docs created:',docs);    
+    const locsCreateQueue = queues.locs.create.map((item)=>{
+      return {...item,userId:user._id}//add the userId to the new items
+    })
+    console.log('locsCreateQueue:',locsCreateQueue);
+
+    const createdLists = await List.insertMany(listsCreateQueue,{lean:true,ordered:false,rawResult:true})
+    console.log('lists created:',createdLists);
+    const createdLocs = await Location.insertMany(locsCreateQueue,{lean:true,ordered:false,rawResult:true})
+    console.log('locs created:',createdLocs);
+
+
       //respond with salted session token
     const token = jwt.sign({userId: user._id}, process.env.SALTKEY);
     res.send({token});
