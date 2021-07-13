@@ -30,9 +30,9 @@ router.post('/signup', async(req,res)=>{
     })
     console.log('locsCreateQueue:',locsCreateQueue);
 
-    const createdLists = await List.insertMany(listsCreateQueue,{lean:true,ordered:false,rawResult:true})
+    const createdLists = await List.insertMany(listsCreateQueue,{ordered:false,rawResult:true})
     console.log('lists created:',createdLists);
-    const createdLocs = await Location.insertMany(locsCreateQueue,{lean:true,ordered:false,rawResult:true})
+    const createdLocs = await Location.insertMany(locsCreateQueue,{ordered:false,rawResult:true})
     console.log('locs created:',createdLocs);
 
 
@@ -40,7 +40,7 @@ router.post('/signup', async(req,res)=>{
     const token = jwt.sign({userId: user._id}, process.env.SALTKEY);
     res.send({token});
   } catch (err) { // if user is duplicate or if no username || password
-    return res.status(422).send(err.message);
+    return res.status(422).send(err);
   };
 
 });
