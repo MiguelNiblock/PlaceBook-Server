@@ -14,14 +14,18 @@ router.use(requireAuth);
 router.post('/lists', async(req,res)=>{
   let {item} = req.body
   if (!item.name) {
-    return res.status(422).send({error:'You must provide a list name'});
+    console.error('Error saving new list: List didnt have a name.',item);
+    return res.status(422).send({error:'Error saving new list: List didnt have a name'});
   }
   try { //userId obtained from req.user, thanks to requireAuth middleware
     const list = new List({...item, userId: req.user._id});
     console.log('creating list:',list)
     await list.save();
     res.send(list); //return the instance created
-  } catch (err) {return res.status(422).send({err})}
+  } catch (err) {
+    console.error('Error saving new list:',err);
+    return res.status(422).send({error:err})
+  }
 });
 
 //Fetch all instances a user has ever created
@@ -37,23 +41,34 @@ router.put('/lists/:id', async(req, res)=>{
     const _id = req.params.id;
     const {name, color, icon, shown, expanded,datetimeModified} = req.body
     console.log('PUT:',_id,name,color,icon,shown,expanded,datetimeModified)
-    const updatedList = await List.findByIdAndUpdate(
-      _id,
-      {name, color, icon, shown, expanded, datetimeModified},
-      {new:true}
+    const updatedList = await List.findOneAndUpdate(
+      {_id},{name, color, icon, shown, expanded, datetimeModified},
+      {runValidators:true,useFindAndModify:false,new:true}
     )
+    if(!updatedList){
+      console.error('Error updating a list. Possibly not found');
+      return res.status(422).send({error:'No list found to update'})
+    }
     res.send(updatedList);
-  } catch (err) {return res.status(422).send({error:err.message})}
+  } catch (err) {
+    console.error('Error updating a list:',err);
+    return res.status(422).send({error:err.message})
+  }
 })
 
 router.delete('/lists/:id', async(req,res)=>{
   try {
     const _id = req.params.id;
-    console.log('deleting id:',_id);
-    const deletedList = await List.findByIdAndDelete(_id);
-    console.log('deleted:',deletedList);
+    const deletedList = await List.findOneAndDelete({_id});
+    if(!deletedList){
+      console.error('Error deleting a list. Possibly not found');
+      return res.status(422).send({error:'No list found to delete'})
+    }
     res.send(deletedList);
-  } catch (err) {return res.status(422).send({error:err.message})};
+  } catch (err) {
+    console.error('Error deleting a list. Possibly not found',err);
+    return res.status(422).send({error:err.message})
+  };
 })
 
 module.exports = router;

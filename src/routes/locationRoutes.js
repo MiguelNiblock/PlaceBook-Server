@@ -15,6 +15,7 @@ router.post('/locs', async(req,res)=>{
   const {item} = req.body
   // console.log('POST item received:',item);
   if (!item.listId) {
+    console.error('Location must have a listId');
     return res.status(422).send({error:'You must choose a list in which to save this location'});
   }
   try { //userId obtained from req.user, thanks to requireAuth middleware
@@ -24,7 +25,7 @@ router.post('/locs', async(req,res)=>{
     res.send(location); //return the instance created
   } catch (err) {
     console.error('Error saving new location:',err);
-    return res.status(422).send(err)
+    return res.status(422).send({error:err.message})
   }
 });
 
@@ -45,7 +46,7 @@ router.put('/locs/:id', async(req, res)=>{
     )
     if(!newLoc){
       console.error('Error updating a location. Possibly not found');
-      return res.status(422).send('No location found to update')
+      return res.status(422).send({error:'No location found to update'})
     }
     res.send(newLoc);
   } catch (err) {
@@ -60,7 +61,7 @@ router.delete('/locs/:id', async(req,res)=>{
     const deletedLoc = await Location.findOneAndDelete({_id});
     if(!deletedLoc){
       console.error('Error deleting a location. Possibly not found');
-      return res.status(422).send('No location found to delete')
+      return res.status(422).send({error:'No location found to delete'})
     }
     res.send(deletedLoc);
   } catch (err) {

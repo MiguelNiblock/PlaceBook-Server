@@ -8,8 +8,14 @@ const listSchema = new mongoose.Schema({
     maxlength: 30,
     trim: true
   },
-  color: String,
-  icon: String,
+  color: {
+    type: String,
+    required: true
+  },
+  icon: {
+    type: String,
+    required: true
+  },
   shown: Boolean,
   expanded: Boolean,
   datetimeCreated: String,
