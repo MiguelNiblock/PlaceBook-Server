@@ -1,20 +1,25 @@
 ## PlaceBook
 
+>This repository has the API code for the main PlaceBook project: https://github.com/MiguelNiblock/PlaceBook-App
+
 ### The app to save your life's places
 
-PlaceBook aims to be a easy-to-use tool for bookmarking, organizing and consuming locations in a map. It is motivated by the lack of existing tools to accomplish this, and by the need being so ubiquitous. Although similar features are offered by existing apps (Like Google Maps, or other navigation apps), their interfaces prioritize other features, making it inconvenient to manage or customize saved pins. The ultimate goal of PlaceBook is to become a social media platform that revolves around places.
+PlaceBook aims to be an easy-to-use tool for bookmarking, organizing and accessing locations in a map. It is motivated by the lack of existing tools to accomplish this, and by the need being so ubiquitous. Although similar features are offered by existing apps (Like Google Maps, or other navigation apps), their interfaces prioritize other features, making it inconvenient to manage or customize saved pins. The ultimate goal of PlaceBook is to become a social media platform that revolves around places.
+
+Expo project: https://expo.dev/@miguelniblock/PlaceBook
+
+Play Store url: https://play.google.com/store/apps/details?id=com.miguelniblock.PlaceBook
 
 Try the app live on expo snack: https://snack.expo.io/@miguelniblock/github.com-miguelniblock-placebook-app 
 
-Download the .apk from expo build: https://expo.io/accounts/miguelniblock/projects/PlaceBook/builds/1ffbc8ab-5dff-4985-b563-dbf8c4f7263d
 
 ### Technology stack:
 
 - React native front end, app available in IOS and Android
 - REST API made with Express
-- Heroku dyno for API runtime
+- Heroku dyno for API server
 - MongoDB Atlas for data
-- CI/CD pipeline between Github and Heroku. Builds and deploys API on every push.
+- CI/CD pipeline (Github -> Heroku). Builds and deploys API on push.
 
 ### Main features:
 
